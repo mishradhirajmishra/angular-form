@@ -1,0 +1,174 @@
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+        <form [formGroup]="userProfile" (ngSubmit)="updateProfile()">
+            <div class="form-group">
+                <label for="name">Username</label>
+                <input id="name" class="form-control" type="text" formControlName="username" name="username"
+                    [class.is-valid]="username?.touched && !username?.errors?.required"
+                    [class.is-invalid]="username?.touched && username?.errors?.required">
+                <small class="form-text text-right text-danger"
+                    *ngIf="username?.touched && username?.errors?.required">This field is required </small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" class="form-control" formControlName="email" name="email"
+                    [class.is-invalid]="email?.touched && (email?.invalid || email?.errors?.required)"
+                    [class.is-valid]="email?.touched && !(email?.invalid || email?.errors?.required)">
+
+                <small class="form-text text-right text-danger" *ngIf="email?.touched && email?.errors?.required">This
+                    field is required </small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="email?.touched && email?.invalid && !email?.errors?.required">Invalid Email</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" class="form-control" type="password" formControlName="password" name="password"
+                    [class.is-valid]="password?.touched && !password?.errors"
+                    [class.is-invalid]="password?.touched && password?.errors">
+                <small class="form-text text-right text-danger"
+                    *ngIf="password?.touched && password?.errors?.required">This field is required </small>
+            </div>
+            <div class="form-group">
+                <label for="c-password">Confirm Password</label>
+                <input id="c-password" class="form-control" type="password" formControlName="cpassword" name="cpassword"
+                    [class.is-valid]="cpassword?.touched && !cpassword?.errors"
+                    [class.is-invalid]="cpassword?.touched && cpassword?.errors">
+
+                <small class="form-text text-right text-danger"
+                    *ngIf="cpassword?.touched && cpassword?.errors?.required">This field is required </small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="cpassword?.touched && (cpassword?.errors?.invalidPss) && !cpassword?.errors?.required ">Password
+                    must be equal</small>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of birth</label>
+                <input id="dob" [max]="maxDate" [min]="minDate" class="form-control" type="date" formControlName="dob"
+                    name="dob" [class.is-valid]="dob?.touched && !dob?.errors"
+                    [class.is-invalid]="dob?.touched && dob?.errors">
+                <small class="form-text text-right text-danger" *ngIf="dob.touched && dob?.errors?.required">This field
+                    is required</small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="dob.touched && dob?.errors?.invalidDate && !dob?.errors?.required">Invalid Date Range</small>
+            </div>
+            <div class="form-group">
+                <label for="dob">Url</label>
+                <input id="dob" class="form-control" type="url" formControlName="url" name="url"
+                    [class.is-valid]="url?.touched && !url?.errors" [class.is-invalid]="url?.touched && url?.errors">
+
+                <small class="form-text text-right text-danger" *ngIf="url.touched && url?.errors?.required">This field
+                    is Required</small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="url.touched && url?.errors?.validUrl && !url?.errors?.required">Invalid Url</small>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" class="form-control" formControlName="category" name="category"
+                    [class.is-valid]="category?.touched && !category?.errors"
+                    [class.is-invalid]="category?.touched && category?.errors">
+                    <option value="">Select</option>
+                    <option value="GEN">General</option>
+                    <option value="OBC">OBC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                </select>
+                <small class="form-text text-right text-danger"
+                    *ngIf="category.touched && category?.errors?.required">This field is required </small>
+            </div>
+
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label class="btn btn-primary " [class.btn-success]="gender?.value=='female'">
+                        <input id="gender" type="radio" formControlName="gender" name="gender" value="female">
+                        Female
+                    </label>
+                    <label class="btn  btn-primary " [class.btn-success]="gender?.value=='male'">
+                        <input id="gender" type="radio" formControlName="gender" name="gender" value="male">
+                        Male
+                    </label>
+
+                    <span class="form-control" [class.is-valid]="!gender.errors"
+                        [class.is-invalid]="gender.errors"></span>
+                </div>
+            </div>
+            <!-- ================ -->
+            <ng-container formGroupName="hobby">
+                <div class="form-group">
+                    <label>Hobby</label> 
+                    <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+
+                        <label for="hobby1" class="btn btn-primary"
+                            [class.btn-success]="hobby.value.reading_book==true">
+                            <input id="hobby1" type="checkbox" formControlName="reading_book" name="reading_book"
+                                value="true">
+                            Reading Book
+                        </label>
+                        <label for="hobby2" class="btn  btn-primary"
+                            [class.btn-success]="hobby.value.watching_moove==true">
+                            <input id="hobby2" type="checkbox" formControlName="watching_moove" name="watching_moove"
+                                value="true">
+                            Watching Moove
+                        </label>
+                        <label for="hobby3" class="btn  btn-primary" [class.btn-success]="hobby.value.swimming==true">
+                            <input id="hobby3" type="checkbox" formControlName="swimming" name="swimming" value="true">
+                            Sweeming
+                        </label>
+                        <span *ngIf="hobby.dirty" class="form-control" [class.is-invalid]="hobby.dirty && hobby.errors?.invalidHobby" [class.is-valid]="hobby.dirty && !hobby.errors?.invalidHobby"></span>
+
+                    </div>
+                    <small class="form-text text-right text-danger mt-3" *ngIf="hobby.dirty && hobby.errors?.invalidHobby"> Please sellect atleast one hobby</small>
+
+                </div>
+            </ng-container>
+            <ng-container formGroupName="time">
+                <div class="form-group">
+                    <label class="form-check-label">Time </label>
+                    <div class="form-inline float-right mr">
+                        <label class="btn btn-primary">Min</label>
+                        <input id="minTime" class="form-check-input form-control" type="time" formControlName="minTime"
+                            name="minTime">
+                        <label class="btn btn-primary">max </label>
+                        <input id="maxTime" class="form-check-input form-control" type="time" formControlName="maxTime"
+                            name="maxTime" required>
+
+                        <span class="form-control" *ngIf="time.dirty"
+                            [class.is-invalid]="time.dirty && time.errors?.invalidTime"
+                            [class.is-valid]="time.dirty && !time.errors?.invalidTime"></span>
+
+                    </div>
+                    <small class="form-text text-right  text-danger mt-3"
+                        *ngIf="time.dirty && time.errors?.invalidTime">Invalid Time range</small>
+                </div>
+            </ng-container>
+            <!-- ================ -->
+            <div class="form-group">
+                <label for="range">Range </label> <span class="float-right badge badge-success" *ngIf="range.value">{{range.value}} </span>
+                <input id="range" class="custom-range form-control" formControlName="range" name="range" type="range"[class.is-invalid]="range.touched && range?.errors?.required"
+                [class.is-valid]="range.touched && !range?.errors?.required">
+                <small class="form-text text-right  text-danger mt-3" *ngIf="range.touched && range?.errors?.required">This field is required </small>
+            </div>
+
+
+            <div class="form-group">
+                <label for="my-input">Color</label>
+                <input id="my-input" class="form-control" formControlName="color" name="color" type="color" 
+                [class.is-invalid]="color.touched && color?.errors?.required"
+                [class.is-valid]="color.touched && !range?.color?.required">
+                <small class="form-text text-right  text-danger mt-3"*ngIf="color.touched && color?.errors?.required">This field is required </small>
+            </div>
+            <div class="form-group">
+                <label for="about">About</label>
+                <textarea class="form-control " id="about" ngModel class="form-control" formControlName="about"
+                    name="about" rows="3"
+                    [class.is-invalid]="about.touched && about?.errors?.required"
+                [class.is-valid]="about.touched && !range?.about?.required"
+                > </textarea>
+                <small class="form-text text-right  text-danger mt-3" *ngIf="about.touched && about?.errors?.required">This field is required </small>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" [disabled]="!userProfile.valid" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

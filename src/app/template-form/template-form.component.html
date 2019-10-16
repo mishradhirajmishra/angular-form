@@ -1,0 +1,174 @@
+<div class="container">
+    <div class="col-md-6 offset-md-3">
+            <h1 appAppHighlight>test</h1>
+        <!-- {{tempForm.value |json}} -->
+        <form #tempForm="ngForm" (ngSubmit)="sendData(tempForm);tempForm.form.reset()">
+            <div class="form-group">
+                <label for="name" >Username</label>
+                <input id="name" [class.is-invalid]="username.touched && username.invalid"
+                    [class.is-valid]="username.touched && username.valid" class="form-control" type="text"
+                    name="username" #username="ngModel" ngModel required>
+                <small class="form-text text-right text-danger" *ngIf="username.touched && username.invalid">This field  is
+                    required</small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" [class.is-invalid]="email.touched && email.invalid"
+                    [class.is-valid]="email.touched && email.valid" class="form-control" type="email" name="email"
+                    #email="ngModel" ngModel email required>
+
+                <small class="form-text text-right text-danger" *ngIf="email.touched && email?.errors?.required">This
+                    field is
+                    required</small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="email.touched && email.errors && !email?.errors?.required">Invalid Email</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" (blur)="chkPass(password.value,cpassword.value)"
+                    [class.is-invalid]="password.touched && password.invalid"
+                    [class.is-valid]="password.touched && password.valid" class="form-control" type="password"
+                    name="password" #password="ngModel" ngModel required>
+                <small class="form-text text-right text-danger" *ngIf="password.touched && password.invalid">This field
+                    is
+                    required</small>
+            </div>
+
+            <div class="form-group">
+                <label for="c-password">Confirm Password</label>
+                <input (blur)="chkPass(password.value,cpassword.value)" id="c-password"
+                    [class.is-invalid]="cpassword.touched && (cpassword.invalid || invalidPass)"
+                    [class.is-valid]="cpassword.touched && cpassword.valid" class="form-control" type="password"
+                    name="cpassword" #cpassword="ngModel" ngModel required>
+                <small class="form-text text-right text-danger"
+                    *ngIf="cpassword.touched && cpassword?.errors?.required ">This field is required</small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="cpassword.touched && invalidPass && !cpassword?.errors?.required">Password must be  equal</small>
+            </div>
+            <div class="form-group">
+                <label for="url">Url</label>
+                <input id="url" appUrlValidate 
+                    [class.is-invalid]="url.touched && url?.errors"[class.is-valid]="url.touched && !url?.errors" class="form-control" type="url" name="url" #url="ngModel" ngModel required>
+                <small class="form-text text-right text-danger" *ngIf="url.touched && url.errors?.required">This field  is required</small>
+                <small class="form-text text-right text-danger" *ngIf="url.touched && url?.errors?.urlErr && !url.errors?.required">Invalid url must be in https//   ---.io formet</small>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of birth</label>
+                <input id="dob"
+                    [class.is-invalid]="dob.touched && ( dob.invalid || (dob?.value > maxDate || dob?.value < minDate))"
+                    [class.is-valid]="dob.touched && dob.valid || !(dob?.value > maxDate || dob?.value < minDate)"
+                    class="form-control" type="date" name="dob" #dob="ngModel" ngModel required [max]="maxDate"
+                    [min]="minDate">
+                <small class="form-text text-right text-danger" *ngIf="dob.touched && dob?.errors?.required">This field
+                    is
+                    required</small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="dob.touched && (dob?.value > maxDate || dob?.value < minDate) && !dob?.errors?.required">
+                    Invalid Date Range</small>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" [class.is-invalid]="category.touched && category.invalid"
+                    [class.is-valid]="category.touched && category.valid" class="form-control" name="category"
+                    #category="ngModel" ngModel required>
+                    <option value="">Select</option>
+                    <option value="GEN">General</option>
+                    <option value="OBC">OBC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                </select>
+                <small class="form-text text-right text-danger" *ngIf="category.touched && category.invalid">This field
+                    is
+                    required</small>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                    <label class="btn btn-primary form-control" [class.btn-success]="gender.value=='female'">
+                        <input id="gender" type="radio" name="gender" #gender="ngModel" ngModel required value="female">
+                        Female
+                    </label>
+                    <label class="btn  btn-primary form-control" [class.btn-success]="gender.value=='male'">
+                        <input id="gender" type="radio" name="gender" #gender="ngModel" ngModel required value="male">
+                        Male
+                    </label>
+                    <small class="form-text text-right text-danger" *ngIf="cpassword.touched && cpassword.invalid ">This
+                        field is required</small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="hobby">Hobby</label>
+                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons" ngModelGroup="hobby" #hobby>
+
+                    <label class="btn btn-primary" [class.btn-success]="r_b.value==true"
+                        [class.btn-danger]="tempForm?.controls?.hobby?.dirty && (!r_b.value && !w_m.value && !s.value )">
+                        <input id="hobby" type="checkbox" name="reading_book" #r_b="ngModel" ngModel value="true">
+                        Reading Book
+                    </label>
+                    <label class="btn  btn-primary" [class.btn-success]="w_m.value==true"
+                        [class.btn-danger]="tempForm?.controls?.hobby?.dirty && (!r_b.value && !w_m.value && !s.value )">
+                        <input id="hobby" type="checkbox" name="watching_moove" #w_m="ngModel" ngModel value="true">
+                        Watching Moove
+                    </label>
+                    <label class="btn  btn-primary" [class.btn-success]="s.value==true"
+                        [class.btn-danger]="tempForm?.controls?.hobby?.dirty && (!r_b.value && !w_m.value && !s.value )">
+                        <input id="hobby" type="checkbox" name="sweeming" #s="ngModel" ngModel value="true"> Sweeming
+                    </label>
+                </div>
+                <small class="form-text text-right text-danger mt-3"
+                    *ngIf="tempForm?.controls?.hobby?.dirty && (!r_b.value && !w_m.value && !s.value )"> Please sellect
+                    atleast one hobby</small>
+
+            </div>
+            <div class="form-group">
+                <label class="form-check-label">Time</label>
+                <div class="form-inline float-right mr" ngModelGroup="time" #time>
+                    <button class="btn btn-primary" [class.btn-success]="minTime.valid"
+                        [class.btn-danger]="minTime.touched && maxTime.touched && (minTime.value >= maxTime.value)">Min
+                    </button>
+                    <input id="minTime" #minTime="ngModel" class="form-check-input form-control" type="time"
+                        name="minTime" ngModel required>
+                    <button class="btn btn-primary" [class.btn-success]="maxTime.valid"
+                        [class.btn-danger]="minTime.touched && maxTime.touched && (minTime.value >= maxTime.value)">max
+                    </button>
+                    <input id="maxTime" #maxTime="ngModel" class="form-check-input form-control" type="time"
+                        name="maxTime" ngModel required>
+                </div>
+                <small class="form-text text-right  text-danger mt-3"
+                    *ngIf="minTime.touched && maxTime.touched && (minTime.value >= maxTime.value)">Invalid Date
+                    range</small>
+            </div>
+
+            <div class="form-group">
+                <label for="range">Range </label> <span [hidden]="!range.value" class="float-right badge badge-success">
+                    {{range.value}}</span>
+                <input id="range" #range="ngModel" ngModel class="custom-range form-control"
+                    [class.is-valid]="range.dirty" type="range" name="range" [min]="0" [max]="100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="my-input">Color</label>
+                <input id="my-input" [class.is-valid]="color.touched && color.valid"
+                    [class.is-invalid]="color.touched && color.invalid" class="form-control" #color="ngModel" ngModel
+                    name="color" type="color" required>
+                <small class="form-text text-right  text-danger mt-3" *ngIf="color.touched && color.invalid">This field
+                    is required</small>
+            </div>
+            <div class="form-group">
+                    <label for="about">About</label>
+                    <textarea class="form-control " [class.is-invalid]="about.touched && about.invalid" id="about"
+                        #about="ngModel" ngModel class="form-control" name="about" rows="3" required>
+    
+                    </textarea>
+                    <small class="form-text text-right  text-danger mt-3" *ngIf="about.touched && about.invalid">This field
+                        is required</small>
+                </div>
+            <div class="form-group">
+                <button class="btn btn-success" 
+                    [disabled]="tempForm.form.invalid || invalidPass || (dob?.value > maxDate || dob?.value < minDate) || (!r_b.value && !w_m.value && !s.value ) || (minTime.value >= maxTime.value)"
+                    type="submit" >Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

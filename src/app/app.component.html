@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+ 
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/t-form"  routerLinkActive="active">Template</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/r-form"  routerLinkActive="active">Reactive</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/r-d-form"  routerLinkActive="active">Reactive Dynamic</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/r-b-form"  routerLinkActive="active">Reactive Builder</a>
+      </li>
+
+
+    </ul>
+    <div class="form-inline my-2 my-lg-0">
+     <ul>
+        <li class="nav-item">
+            <a class="btn btn-danger" (click)="logout()" >Logout</a>
+          </li>
+     </ul>
+    </div>
+  </div>
+</nav> 
+
+
+<router-outlet></router-outlet>

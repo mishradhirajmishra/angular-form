@@ -1,0 +1,7 @@
+.mr {
+    margin-right: -4px;
+}
+
+:disabled {
+    cursor: no-drop;
+}

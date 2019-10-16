@@ -1,0 +1,81 @@
+<div class="container">
+       <!-- {{userProfile.value |json}} -->
+       <br>
+    <div class="col-md-6 offset-md-3">
+        <form [formGroup]="userProfile" (ngSubmit)="updateProfile()">
+            <div class="form-group">
+                <label for="name">Username</label>
+                <input id="name" class="form-control" type="text" formControlName="username" name="username"
+                    [class.is-valid]="username?.touched && !username?.errors?.required"
+                    [class.is-invalid]="username?.touched && username?.errors?.required">
+                <small class="form-text text-right text-danger"
+                    *ngIf="username?.touched && username?.errors?.required">This field is required </small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input id="email" type="email" class="form-control" formControlName="email" name="email"
+                    [class.is-invalid]="email?.touched && (email?.invalid || email?.errors?.required)"
+                    [class.is-valid]="email?.touched && !(email?.invalid || email?.errors?.required)">
+
+                <small class="form-text text-right text-danger" *ngIf="email?.touched && email?.errors?.required">This
+                    field is required </small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="email?.touched && email?.invalid && !email?.errors?.required">Invalid Email</small>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" class="form-control" type="password" formControlName="password" name="password"
+                    [class.is-valid]="password?.touched && !password?.errors"
+                    [class.is-invalid]="password?.touched && password?.errors">
+                <small class="form-text text-right text-danger"
+                    *ngIf="password?.touched && password?.errors?.required">This field is required </small>
+            </div>
+            <div class="form-group">
+                <label for="c-password">Confirm Password</label>
+                <input id="c-password" class="form-control" type="password" formControlName="cpassword" name="cpassword"
+                    [class.is-valid]="cpassword?.touched && !cpassword?.errors"
+                    [class.is-invalid]="cpassword?.touched && cpassword?.errors">
+
+                <small class="form-text text-right text-danger"
+                    *ngIf="cpassword?.touched && cpassword?.errors?.required">This field is required </small>
+                <small class="form-text text-right text-danger"
+                    *ngIf="cpassword?.touched && (cpassword?.errors?.invalidPss) && !cpassword?.errors?.required ">Password
+                    must be equal</small>
+            </div>
+            <br>
+
+            
+            <div formArrayName="time" *ngFor="let exp of getMoreTime.controls;let i=index">
+                <!-- ----------------------------------------------------------------------------------------------- -->
+                <ng-container [formGroupName]="i">
+                    <div class="form-group">
+                        <label class="form-check-label">Time </label> 
+                        <div class="form-inline float-right mr">
+                            <label class="btn btn-primary">Min</label>
+                            <input id="minTime" class="form-check-input form-control" type="time"
+                                formControlName="minTime" name="minTime">
+                            <label class="btn btn-primary">max </label> 
+                            <input id="maxTime" class="form-check-input form-control" type="time"
+                                formControlName="maxTime" name="maxTime" required>
+                            <span class="form-control" *ngIf="time.dirty"
+                                [class.is-invalid]="time?.get([i]).dirty && time?.get([i])?.errors?.invalidTime"
+                                [class.is-valid]="time?.get([i]).dirty && !time?.get([i])?.errors?.invalidTime"></span>
+                                <button class="btn btn-danger btn-sm" (click)="delMoreTime(i)" type="button">- del</button>
+                        </div>
+                    
+                        <small class="form-text text-right  text-danger mt-3"
+                            *ngIf="time?.get([i]).dirty && time?.get([i])?.errors?.invalidTime">Invalid Time range</small>
+                    </div>
+                </ng-container>
+                <!-- --------------------------------------------------------------------------------------------- -->
+            </div>
+            <div class="form-group">
+                <button [disabled]="time.invalid" class="btn btn-sm btn-primary float-right" (click)="addMoreTime()" type="button">+ Add Time</button>
+                <br><br>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" [disabled]="!userProfile.valid" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
